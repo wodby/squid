@@ -7,7 +7,7 @@ ARG SQUID_VER
 ENV SQUID_VER="${SQUID_VER}"
 
 RUN set -ex; \
-    apk add --update  \
+    apk add --update  --no-cache -t squid-rundeps \
       "squid~${SQUID_VER}"  \
       ca-certificates  \
       tzdata  \
