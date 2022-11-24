@@ -1,7 +1,17 @@
-FROM alpine:3.17
+ARG BASE_IMAGE_TAG
+
+FROM wodby/alpine:${BASE_IMAGE_TAG}
+
+ARG SQUID_VER
+
+ENV SQUID_VER="${SQUID_VER}"
 
 RUN set -ex; \
-    apk add --update squid ca-certificates tzdata bash; \
+    apk add --update  \
+      "squid~${SQUID_VER}"  \
+      ca-certificates  \
+      tzdata  \
+      bash; \
     \
     mkdir -p /etc/squid/conf.d/; \
     echo "# Set max_filedescriptors to avoid using system's RLIMIT_NOFILE. See LP: #1978272" > /etc/squid/conf.d/rock.conf; \

@@ -8,7 +8,7 @@ if [[ "${GITHUB_REF}" == refs/heads/main || "${GITHUB_REF}" == refs/tags/* ]]; t
     if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
       export STABILITY_TAG="${GITHUB_REF##*/}"
     fi
-
+x
     IFS=',' read -ra tags <<< "${TAGS}"
 
     for tag in "${tags[@]}"; do

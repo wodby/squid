@@ -6,7 +6,7 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/squid`) which correspond to [git tags](https://github.com/wodby/squid/releases). We strongly recommend using images only with stability tags.
+❗For better reliability we release images with stability tags (`wodby/squid:5`) which correspond to [git tags](https://github.com/wodby/squid/releases). We strongly recommend using images only with stability tags.
 
 Overview:
 
@@ -17,6 +17,6 @@ Overview:
 
 Supported tags and respective `Dockerfile` links:
 
-- `latest` [_(Dockerfile)_](https://github.com/wodby/squid/tree/master/Dockerfile)
+- `5.7`, `5`, `latest` [_(Dockerfile)_](https://github.com/wodby/squid/tree/master/Dockerfile)
 
 All images built for `linux/amd64`
