@@ -1,10 +1,10 @@
 -include env.mk
 
-SQUID_VER ?= 5.7
+SQUID_VER ?= 5.9
 
 TAG ?= $(SQUID_VER)
 
-ALPINE_VER ?= 3.17
+ALPINE_VER ?= 3.18
 
 ifeq ($(BASE_IMAGE_STABILITY_TAG),)
     BASE_IMAGE_TAG := $(ALPINE_VER)

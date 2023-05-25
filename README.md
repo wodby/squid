@@ -17,6 +17,6 @@ Overview:
 
 Supported tags and respective `Dockerfile` links:
 
-- `5.7`, `5`, `latest` [_(Dockerfile)_](https://github.com/wodby/squid/tree/master/Dockerfile)
+- `5.9`, `5`, `latest` [_(Dockerfile)_](https://github.com/wodby/squid/tree/master/Dockerfile)
 
 All images built for `linux/amd64`
