@@ -21,11 +21,9 @@ runs:
         image=$(make --no-print-directory -s image-ref)
         echo "image=$(docker image inspect --format '{{.Id}}' "$image")" >> "$GITHUB_OUTPUT"
     - name: Scan image
-      uses: ./.github/actions/scout
+      uses: ./.github/actions/grype
       with:
-        image: local://${{ steps.build-image.outputs.image }}
-        dockerhub-user: ${{ env.DOCKER_USERNAME }}
-        dockerhub-password: ${{ env.DOCKER_PASSWORD }}
+        image: docker:${{ steps.build-image.outputs.image }}
     - name: Publish scanned image
       shell: bash
       env:
