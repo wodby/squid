@@ -1,6 +1,7 @@
 name: Build docker image
 
 on:
+  pull_request:
   push:
     branches:
     - main
@@ -9,7 +10,8 @@ on:
     - '*'
 
 env:
-  BASE_IMAGE_STABILITY_TAG: 2.16.0
+  BASE_IMAGE_STABILITY_TAG: 2.20.7
+  SQUID7: '7.6'
 
 jobs:
   latest:
@@ -23,5 +25,5 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       with:
-        version: '5.9'
-        tags: 5.9,5,latest
+        version: ${{ env.SQUID7 }}
+        tags: ${{ env.SQUID7 }},7,latest
