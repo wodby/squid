@@ -8,15 +8,28 @@ inputs:
     description: image tags
     required: true
 runs:
-  using: "composite"
+  using: composite
   steps:
-  - name: Build image
-    env:
-      SQUID_VER: ${{ inputs.version }}
-      TAGS: ${{ inputs.tags }}
-    run: |
-      set -e
-      make
-      make test
-      . $GITHUB_ACTION_PATH/release.sh
-    shell: bash
+    - name: Build and test image
+      id: build-image
+      shell: bash
+      env:
+        SQUID_VER: ${{ inputs.version }}
+      run: |
+        make
+        make test
+        image=$(make --no-print-directory -s image-ref)
+        echo "image=$(docker image inspect --format '{{.Id}}' "$image")" >> "$GITHUB_OUTPUT"
+    - name: Scan image
+      uses: ./.github/actions/scout
+      with:
+        image: local://${{ steps.build-image.outputs.image }}
+        dockerhub-user: ${{ env.DOCKER_USERNAME }}
+        dockerhub-password: ${{ env.DOCKER_PASSWORD }}
+    - name: Publish scanned image
+      shell: bash
+      env:
+        SQUID_VER: ${{ inputs.version }}
+        TAGS: ${{ inputs.tags }}
+        SCANNED_IMAGE: ${{ steps.build-image.outputs.image }}
+      run: bash "$GITHUB_ACTION_PATH/release.sh"
