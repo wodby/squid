@@ -25,6 +25,7 @@ runs:
       with:
         image: docker:${{ steps.build-image.outputs.image }}
     - name: Publish scanned image
+      if: github.event_name == 'push'
       shell: bash
       env:
         SQUID_VER: ${{ inputs.version }}

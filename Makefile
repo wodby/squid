@@ -1,10 +1,10 @@
 -include env.mk
 
-SQUID_VER ?= 5.9
+SQUID_VER ?= 7.6
 
 TAG ?= $(SQUID_VER)
 
-ALPINE_VER ?= 3.18
+ALPINE_VER ?= 3.24
 
 ifeq ($(BASE_IMAGE_STABILITY_TAG),)
     BASE_IMAGE_TAG := $(ALPINE_VER)
@@ -26,12 +26,12 @@ endif
 default: build
 
 build:
-	docker build -t $(REPO):$(TAG) \
+	docker build --pull -t $(REPO):$(TAG) \
 		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
 		--build-arg SQUID_VER=$(SQUID_VER) ./
 
 test:
-	echo "no tests yet :("
+	IMAGE=$(REPO):$(TAG) ./tests/run.sh
 
 push:
 	docker push $(REPO):$(TAG)
