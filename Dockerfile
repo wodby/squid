@@ -6,7 +6,9 @@ ARG SQUID_VER
 
 ENV SQUID_VER="${SQUID_VER}"
 
+# Upgrade inherited packages even when their existing versions satisfy dependencies.
 RUN set -ex; \
+    apk upgrade --no-cache; \
     apk add --update  --no-cache -t squid-rundeps \
       "squid~${SQUID_VER}"  \
       ca-certificates  \
