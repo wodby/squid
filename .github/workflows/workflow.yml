@@ -10,7 +10,7 @@ on:
     - '*'
 
 env:
-  BASE_IMAGE_STABILITY_TAG: 2.20.7
+  BASE_IMAGE_STABILITY_TAG: 2.20.8
   SQUID7: '7.6'
 
 jobs:
