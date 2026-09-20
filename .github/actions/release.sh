@@ -19,7 +19,7 @@ if [[ "${GITHUB_REF}" == refs/heads/main || "${GITHUB_REF}" == refs/tags/* ]]; t
     for tag in "${tags[@]}"; do
         # Squid uses a two-part full version. Publish its local revision alias
         # after the build, without occupying that name with the primary counter.
-        if [[ "${IMAGE_REVISION:-}" =~ ^r[1-9][0-9]*$ && "${tag}" == "${SQUID_VER}" ]]; then
+        if [[ "${IMAGE_REVISION:-}" =~ ^r(0|[1-9][0-9]*)$ && "${tag}" == "${SQUID_VER}" ]]; then
             continue
         fi
         # Retag the scanned image instead of rebuilding it for each alias.
