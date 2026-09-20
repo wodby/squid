@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "image": "wodby/squid",
+  "versions": [
+    {
+      "version": {
+        "job": "latest"
+      },
+      "variants": [
+        {
+          "short": [
+            "{major}"
+          ],
+          "full": "{version}"
+        }
+      ]
+    }
+  ]
+}

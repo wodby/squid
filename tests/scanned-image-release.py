@@ -2,6 +2,7 @@
 """Exercise release aliases and scanned-artifact publication without registry access."""
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -36,7 +37,7 @@ elif args[0] not in ["tag", "push"] and args[:3] != ["buildx", "imagetools", "cr
                if key not in ["IMAGE_REVISION", "STABILITY_TAG", "TAG", "ARCH", "MAKEFLAGS", "MFLAGS", "REPO"]}
         env.update(PATH=str(directory) + os.pathsep + env["PATH"],
                    COMMAND_LOG=str(log), GITHUB_REF=ref, TAGS=",".join(ALIASES),
-                   DOCKER_USERNAME="test", DOCKER_PASSWORD="test",
+                   DOCKER_USERNAME="test", DOCKER_PASSWORD="test", SQUID_VER="5.9",
                    PLATFORM=platforms, SCANNED_IMAGE="sha256:scanned",
                    SCANNED_IMAGE_AMD64="sha256:scanned-amd64",
                    SCANNED_IMAGE_ARM64="sha256:scanned-arm64",
@@ -46,7 +47,7 @@ elif args[0] not in ["tag", "push"] and args[:3] != ["buildx", "imagetools", "cr
         result = subprocess.run(["bash", ".github/actions/release.sh"], cwd=ROOT,
                                 env=env, text=True, capture_output=True)
         commands = [json.loads(line) for line in log.read_text().splitlines()] if log.exists() else []
-        if ref != "refs/heads/" + BASE and not ref.startswith("refs/tags/"):
+        if (ref != "refs/heads/" + BASE and not ref.startswith("refs/tags/")) or re.fullmatch(r"refs/tags/.+-r[0-9]+", ref):
             assert result.returncode == 0 and not commands, (result, commands)
             return
         if missing or fail_push:
@@ -61,6 +62,8 @@ elif args[0] not in ["tag", "push"] and args[:3] != ["buildx", "imagetools", "cr
         tags = [revision] if IMAGE.endswith("edge-alpine") and ref.startswith("refs/tags/") else ALIASES
         expected = []
         for tag in tags:
+            if re.fullmatch(r"refs/tags/r[1-9][0-9]*", ref) and tag == "5.9":
+                continue
             if not IMAGE.endswith("edge-alpine") and ref.startswith("refs/tags/") and tag != "latest":
                 tag += "-" + revision
             if tag == "latest" and ref.startswith("refs/tags/r"):
@@ -82,6 +85,8 @@ elif args[0] not in ["tag", "push"] and args[:3] != ["buildx", "imagetools", "cr
 check("refs/heads/" + BASE)
 check("refs/tags/9.8.7")
 check("refs/tags/r23")
+check("refs/tags/5-r23")
+check("refs/tags/5.9-r0")
 check("refs/pull/123/merge")
 check("refs/heads/feature/test")
 check("refs/heads/" + BASE, missing=True)
