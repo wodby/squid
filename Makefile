@@ -1,23 +1,29 @@
 -include env.mk
 
+# Accept legacy build arguments during the image revision transition.
+BASE_IMAGE_REVISION ?= $(BASE_IMAGE_STABILITY_TAG)
+IMAGE_REVISION ?= $(STABILITY_TAG)
+
 SQUID_VER ?= 7.6
 
 TAG ?= $(SQUID_VER)
 
 ALPINE_VER ?= 3.24
 
-ifeq ($(BASE_IMAGE_STABILITY_TAG),)
+ifeq ($(BASE_IMAGE_REVISION),)
     BASE_IMAGE_TAG := $(ALPINE_VER)
 else
-    BASE_IMAGE_TAG := $(ALPINE_VER)-$(BASE_IMAGE_STABILITY_TAG)
+    BASE_IMAGE_TAG := $(ALPINE_VER)-$(BASE_IMAGE_REVISION)
 endif
 
 REPO = wodby/squid
 NAME = squid-$(SQUID_VER)
 
-ifneq ($(STABILITY_TAG),)
+ifneq ($(IMAGE_REVISION),)
     ifneq ($(TAG),latest)
-        override TAG := $(TAG)-$(STABILITY_TAG)
+        override TAG := $(TAG)-$(IMAGE_REVISION)
+    else
+        override TAG := $(IMAGE_REVISION)
     endif
 endif
 
