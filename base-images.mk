@@ -3,7 +3,7 @@
 BASE_IMAGE_REPOSITORY := wodby/alpine
 BASE_IMAGE_VERSION_SUFFIX :=
 
-BASE_IMAGE_DIGEST_3.24 := sha256:d58321c238a9405f91d61c7462851c4a633d798b79fd04c43ed344b2a3ccb3cd
+BASE_IMAGE_DIGEST_3.24 := sha256:c41133746640424fc41fa8235d40f5fcdda1a596de6cbabbb54487efb010a103
 BASE_IMAGE_DIGEST_3.24-r1 := sha256:7ccc1cc4eb781f9da81d4508ad76fc920a359da05e9398ed34e48ccfcc0dd96a
 
 # Fail before building when a version or variant has no reviewed pin.
