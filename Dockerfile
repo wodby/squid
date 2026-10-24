@@ -9,6 +9,9 @@ ARG SQUID_VER
 
 ENV SQUID_VER="${SQUID_VER}"
 
+# Refresh inherited security fixes when rebuilding this image.
+RUN apk upgrade --no-cache
+
 RUN set -ex; \
     apk add --update  --no-cache -t squid-rundeps \
       "squid~${SQUID_VER}"  \
