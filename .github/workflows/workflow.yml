@@ -11,7 +11,7 @@ on:
     - '!*-r[0-9]*'
 
 env:
-  BASE_IMAGE_REVISION: r14
+  BASE_IMAGE_REVISION: r15
   SQUID7: '7.6'
 
 jobs:
